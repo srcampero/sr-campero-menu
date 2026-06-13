@@ -21,10 +21,10 @@ def crear_base_datos():
     
     # Tus productos iniciales exactos
     productos = [
-        ("Pollo Estilo Broaster (1 Entero)", "10 piezas de delicioso pollo crujiente. Incluye: salsa, papas fritas, ensalada de col y tortillas calientes. ¡Listo para llevar a casa!", 290.00, "pollo_entero.jpg"),
-        ("Pollo Estilo Broaster (1/2 Pollo)", "5 piezas de pollo crujiente hechas al momento. Incluye: salsa, papas fritas, ensalada de col y tortillas.", 170.00, "medio_pollo.jpg"),
-        ("Crunchy Burguer", "Hamburguesa con filete de pechuga de pollo empanizado súper crujiente, vegetales frescos y aderezo especial en pan brioche suave.", 95.00, "crunchy_burguer.jpg"),
-        ("Paquete Crunchy Burguer", "Nuestra Crunchy Burguer acompañada de una buena porción de papas fritas doradas y refresco de lata de 355 ml.", 140.00, "paquete_crunchy.jpg")
+        ("Pollo Estilo Broaster (1 Entero)", "10 piezas de delicioso pollo crujiente hecho al momento. Incluye: salsa, papas fritas, ensalada de col y tortillas calientes. ¡Listo para llevar a casa!", 270.00, "pollo_entero.jpg"),
+        ("Pollo Estilo Broaster (1/2 Pollo)", "5 piezas de delicioso pollo crujiente hecho al momento. Incluye: salsa, papas fritas, ensalada de col y tortillas calientes. ¡Listo para llevar a casa!", 150.00, "medio_pollo.jpg"),
+        ("Crunchy Burguer", "Hamburguesa con filete de pechuga de pollo empanizado súper crujiente, vegetales frescos y aderezo especial en pan suave.", 80.00, "crunchy_burguer.jpg"),
+        ("Paquete Crunchy Burguer", "Nuestra Crunchy Burguer acompañada de una buena porción de papas fritas doradas y refresco de 355 ml.", 110.00, "paquete_crunchy.jpg")
     ]
     
     cursor.executemany('''

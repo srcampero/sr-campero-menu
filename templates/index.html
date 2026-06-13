@@ -44,7 +44,7 @@
         .product-info {
             position: relative;
             z-index: 2;
-            padding: 30px 80px 100px 20px; /* Espacio extra para botones inferiores y laterales */
+            padding: 30px 80px 100px 20px;
         }
         .product-info h2 {
             font-family: 'Urbanist', sans-serif;
@@ -67,7 +67,7 @@
         .side-actions {
             position: absolute;
             right: 15px;
-            bottom: 100px; /* Subido para que no estorbe con el botón ver carrito */
+            bottom: 100px;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -95,7 +95,7 @@
         .btn-order { background: #ffaa00; color: white; font-size: 24px; }
         .action-counter { font-size: 12px; color: #fff; margin-top: 4px; font-weight: 600; }
         
-        /* Banner superior discreto de la marca */
+        /* Banner superior de la marca */
         .brand-header {
             position: absolute;
             top: 15px; left: 15px;
@@ -122,7 +122,7 @@
             border-radius: 30px;
             font-weight: bold;
             font-size: 16px;
-            display: none; /* Se activa dinámicamente con JS */
+            display: none;
             align-items: center;
             gap: 10px;
             z-index: 20;
@@ -138,7 +138,7 @@
             font-size: 14px;
         }
 
-        /* Ventana Emergente / Modal del Carrito */
+        /* Ventana Emergente del Carrito */
         .cart-modal {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -162,28 +162,36 @@
             max-width: 500px;
             border-top-left-radius: 25px;
             border-top-right-radius: 25px;
-            padding: 25px;
+            padding: 25px 25px 40px 25px; /* 🚨 Más espacio abajo para librar la barra de Android */
             box-shadow: 0 -5px 25px rgba(0,0,0,0.5);
-            max-height: 80vh;
-            overflow-y: auto;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
         }
         .cart-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border-bottom: 1px solid #333;
             padding-bottom: 10px;
+            flex-shrink: 0;
         }
         .cart-header h3 { font-family: 'Urbanist', sans-serif; font-size: 24px; color: #ffaa00; }
         .close-cart { background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; }
         
-        .cart-items-list { margin-bottom: 20px; }
+        /* 🚨 Lista con scroll independiente para que nunca empuje el botón verde */
+        .cart-items-list { 
+            margin-bottom: 15px; 
+            overflow-y: auto; 
+            max-height: 35vh; 
+            flex-grow: 1;
+        }
         .cart-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             background: #262626;
             padding: 12px;
             border-radius: 12px;
@@ -204,12 +212,14 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            flex-shrink: 0;
         }
         .cart-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; }
         .btn-send-whatsapp {
             background: #25d366; color: #fff; border: none; padding: 15px; border-radius: 15px;
             font-size: 16px; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-bottom: 10px; /* 🚨 Separa el botón del borde de la pantalla */
         }
     </style>
 </head>
@@ -236,20 +246,19 @@
                     <button class="action-btn btn-like" onclick="likeProducto({{ p.id }}, this)">❤️</button>
                     <p class="action-counter" id="likes-{{ p.id }}">{{ p.likes }}</p>
                 </div>
-                <!-- Ahora este botón añade al carrito localmente -->
                 <button class="action-btn btn-order" onclick="agregarAlCarrito({{ p.id }}, '{{ p.nombre }}', {{ p.precio }})">🛒</button>
             </div>
         </div>
         {% endfor %}
     </div>
 
-    <!-- Botón Flotante de Carrito -->
+    <!-- Botón Flotante -->
     <button class="btn-view-cart" id="btnViewCart" onclick="abrirCarrito()">
         <span>Ver Orden</span>
         <span class="cart-count-badge" id="cartCountBadge">0</span>
     </button>
 
-    <!-- Modal del Carrito Desplegable -->
+    <!-- Modal del Carrito -->
     <div class="cart-modal" id="cartModal">
         <div class="cart-content">
             <div class="cart-header">
@@ -272,7 +281,6 @@
     </div>
 
     <script>
-        // Memoria interna del carrito de compras
         let carrito = {};
 
         function agregarAlCarrito(id, nombre, precio) {
@@ -283,7 +291,6 @@
             }
             actualizarInterfazCarrito();
             
-            // Animación visual de confirmación en el botón flotante
             const btn = document.getElementById('btnViewCart');
             btn.style.transform = "translateX(-50%) scale(1.1)";
             setTimeout(() => btn.style.transform = "translateX(-50%) scale(1)", 200);
@@ -331,7 +338,6 @@
             badge.innerText = totalProductos;
             totalText.innerText = `$${precioTotal.toFixed(2)}`;
 
-            // Mostrar u ocultar el botón flotante según haya productos o no
             if (totalProductos > 0) {
                 btnCart.style.display = 'flex';
             } else {
@@ -362,11 +368,9 @@
             mensaje += `\n💰 *Total a pagar:* $${total.toFixed(2)}\n\nMe gustaría pasar a recogerlo en unos minutos. ¿Me confirman el tiempo de espera?`;
             
             const mensajeEncoded = encodeURIComponent(mensaje);
-            // Redirección directa al número comercial oficial
             window.location.href = `https://wa.me/529616768289?text=${mensajeEncoded}`;
         }
 
-        // Función interactiva para enviar likes en tiempo real
         function likeProducto(id, btn) {
             fetch('/like/' + id, { method: 'POST' })
             .then(response => response.json())
