@@ -1,18 +1,21 @@
-import sqlite3
+import psycopg2
 
-# Conectamos a tu base de datos real
-conn = sqlite3.connect('database.db')
+# Tu URL real de Render ya acomodada
+url_database = "postgresql://alfredo:7JqAwDij6nCpyFzJKT0CRWPKwcdXAS26@dpg-d8nf26nlk1mc739m157g-a.oregon-postgres.render.com/srcampero"
+
+# Conectamos a la base de datos real en internet
+conn = psycopg2.connect(url_database)
 cursor = conn.cursor()
 
-# Borra la tabla vieja para meter la nueva información limpia
+# Borra la tabla vieja en internet para meter la nueva información limpia
 cursor.execute('DROP TABLE IF EXISTS productos')
 cursor.execute('''
     CREATE TABLE productos (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nombre TEXT NOT NULL,
+        id SERIAL PRIMARY KEY,
+        nombre VARCHAR(255) NOT NULL,
         descripcion TEXT,
-        precio REAL NOT NULL,
-        imagen_url TEXT,
+        precio NUMERIC(10, 2) NOT NULL,
+        imagen_url VARCHAR(255),
         likes INTEGER DEFAULT 0
     )
 ''')
@@ -33,7 +36,7 @@ productos = [
     ),
     (
         "Crunchy Burguer", 
-        "Hamburguesa con filete de pechuga de pollo empanizado súper cuziente, vegetales frescos y aderezo especial en pan suave.", 
+        "Hamburguesa con filete de pechuga de pollo empanizado súper crujiente, vegetales frescos y aderezo especial en pan suave.", 
         80.00, 
         "crunchy_burguer.jpg"
     ),
@@ -45,8 +48,8 @@ productos = [
     )
 ]
 
-# Esto mete la lista a la base de datos
-cursor.executemany('INSERT INTO productos (nombre, descripcion, precio, imagen_url) VALUES (?, ?, ?, ?)', productos)
+# Esto mete la lista a la base de datos de internet
+cursor.executemany('INSERT INTO productos (nombre, descripcion, precio, imagen_url) VALUES (%s, %s, %s, %s)', productos)
 conn.commit()
 conn.close()
-print("¡Base de datos limpia y corregida localmente!")
+print("¡Base de datos de internet PostgreSQL cargada con éxito!")
