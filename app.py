@@ -4,16 +4,18 @@ from psycopg2.extras import RealDictCursor
 import urllib.parse
 
 
+import psycopg2
+
 def reconstruir_menu_completo():
     url_database = "postgresql://alfredo:7JqAwDij6nCpyFzJKT0CRWPKwcdXAS26@dpg-d8nf26nlk1mc739m157g-a.oregon-postgres.render.com/srcampero"
     try:
         conn = psycopg2.connect(url_database)
         cur = conn.cursor()
         
-        # 1. Borramos la tabla vieja que tiene el nombre de columna incorrecto
+        # 1. Borramos la tabla vieja
         cur.execute("DROP TABLE IF EXISTS productos;")
         
-        # 2. Creamos la tabla nueva con la columna 'imagen' bien definida
+        # 2. Creamos la tabla nueva limpia
         cur.execute('''
             CREATE TABLE productos (
                 id SERIAL PRIMARY KEY,
@@ -25,7 +27,7 @@ def reconstruir_menu_completo():
             );
         ''')
         
-        # 3. La lista oficial de Sr. Campero (Tus 4 clásicos + Todo lo nuevo)
+        # 3. La lista oficial con el texto de Fin de Semana en la Birria
         menu_oficial = [
             # --- TUS CLÁSICOS DE SIEMPRE ---
             ("Pollo Entero Broaster", "Delicioso pollo entero preparado al estilo Broaster, crujiente por fuera y jugoso por dentro. Incluye complementos.", 240.00, "pollo_entero.jpg"),
@@ -38,31 +40,28 @@ def reconstruir_menu_completo():
             ("Tenders de pollo", "1 orden de 5 pzas. de tiras de pollo crujientes y llenos de sabor con su rico dip de la casa.", 80.00, "tenders_pollo.jpg"),
             ("Nuggets de pollo", "1 orden de Nuggets jugosos y llenos de sabor.", 40.00, "nuggets_pollo.jpg"),
             
-            # --- FIN DE SEMANA (BIRRIA) ---
-            ("1 Litro de consomé de birria", "Delicioso consomé incluye: Cebolla/cilantro, tortilla y limón.", 80.00, "litro_consome.jpg"),
-            ("½ Litro de consomé de birria", "Delicioso consomé incluye: Cebolla/cilantro, tortilla y limón.", 45.00, "medio_litro_consome.jpg"),
-            ("1 Litro de consomé con carne", "180 grs. de carne, salsa, cebolla/cilantro y tortilla y limón.", 160.00, "litro_con_carne.jpg"),
-            ("½ Litro de consomé con carne", "90 grs. de carne, salsa, cebolla/cilantro y tortilla y limón.", 85.00, "medio_litro_con_carne.jpg"),
-            ("1 Kg. de carne de birria", "1 kg de deliciosa, suave y jugosa carne de birria, incluye: salsa, cebolla/cilantro, tortilla y limón.", 460.00, "un_kg_birria.jpg"),
-            ("¾ Kg. de carne de birria", "¾ kg de deliciosa, suave y jugosa carne de birria, incluye: salsa, cebolla/cilantro, tortilla y limón.", 360.00, "tres_cuartos_birria.jpg"),
-            ("½ Kg. de carne de birria", "½ kg de deliciosa, suave y jugosa carne de birria, incluye: salsa, cebolla/cilantro, tortilla y limón.", 240.00, "medio_kg_birria.jpg"),
-            ("¼ Kg. de carne de birria", "¼ kg de deliciosa, suave y jugosa carne de birria, incluye: salsa, cebolla/cilantro, tortilla y limón.", 120.00, "cuarto_kg_birria.jpg")
+            # --- FIN DE SEMANA (BIRRIA CON TU NUEVA FRASE) ---
+            ("1 Litro de consomé de birria", "[Solo para los antojos de fin de semana] Delicioso consomé incluye: Cebolla/cilantro, tortilla y limón.", 80.00, "litro_consome.jpg"),
+            ("½ Litro de consomé de birria", "[Solo para los antojos de fin de semana] Delicioso consomé incluye: Cebolla/cilantro, tortilla y limón.", 45.00, "medio_litro_consome.jpg"),
+            ("1 Litro de consomé con carne", "[Solo para los antojos de fin de semana] 180 grs. de carne, salsa, cebolla/cilantro, tortilla y limón.", 160.00, "litro_con_carne.jpg"),
+            ("½ Litro de consomé con carne", "[Solo para los antojos de fin de semana] 90 grs. de carne, salsa, cebolla/cilantro, tortilla y limón.", 85.00, "medio_litro_con_carne.jpg"),
+            ("1 Kg. de carne de birria", "[Solo para los antojos de fin de semana] 1 kg de deliciosa, suave y jugosa carne de birria, incluye: salsa, cebolla/cilantro, tortilla y limón.", 460.00, "un_kg_birria.jpg"),
+            ("¾ Kg. de carne de birria", "[Solo para los antojos de fin de semana] ¾ kg de deliciosa, suave y jugosa carne de birria, incluye: salsa, cebolla/cilantro, tortilla y limón.", 360.00, "tres_cuartos_birria.jpg"),
+            ("½ Kg. de carne de birria", "[Solo para los antojos de fin de semana] ½ kg de deliciosa, suave y jugosa carne de birria, incluye: salsa, cebolla/cilantro, tortilla y limón.", 240.00, "medio_kg_birria.jpg"),
+            ("¼ Kg. de carne de birria", "[Solo para los antojos de fin de semana] ¼ kg de deliciosa, suave y jugosa carne de birria, incluye: salsa, cebolla/cilantro, tortilla y limón.", 120.00, "cuarto_kg_birria.jpg")
         ]
         
-        # 4. Insertamos todo limpio
         for p in menu_oficial:
             cur.execute("INSERT INTO productos (nombre, descripcion, precio, imagen, likes) VALUES (%s, %s, %s, %s, 0);", p)
             
         conn.commit()
         cur.close()
         conn.close()
-        print("--- ¡TABLA RECONSTRUIDA Y MENÚ COMPLETO CARGADO AL 100%! ---")
+        print("--- ¡MENÚ ACTUALIZADO CON FRASES DE FIN DE SEMANA! ---")
     except Exception as e:
         print("Error en reconstrucción:", e)
 
-# Forzamos la ejecución de la nueva estructura
 reconstruir_menu_completo()
-
 app = Flask(__name__)
 
 # Tu URL real de Render configurada fijamente
