@@ -24,10 +24,10 @@ def init_db():
     # 3. Lista oficial y completa de Sr. Campero (Clásicos, Nuevos y Fin de Semana)
     productos = [
         # --- SECCIÓN: CLÁSICOS DE POLLO Y HAMBURGUESAS ---
-        ("Pollo Entero Broaster", "Delicioso pollo entero preparado al estilo Broaster, crujiente por fuera y jugoso por dentro. Incluye complementos.", 240.00, "pollo_entero.jpg"),
-        ("Medio Pollo Broaster", "Medio pollo preparado al estilo Broaster, súper crujiente y lleno de sabor. Incluye complementos.", 130.00, "medio_pollo.jpg"),
+        ("Pollo Entero Broaster", "Delicioso pollo entero preparado al estilo Broaster, crujiente por fuera y jugoso por dentro. Incluye complementos.", 270.00, "pollo_entero.jpg"),
+        ("Medio Pollo Broaster", "Medio pollo preparado al estilo Broaster, súper crujiente y lleno de sabor. Incluye complementos.", 150.00, "medio_pollo.jpg"),
         ("Crunchy Burguer", "Hamburguesa con filete de pechuga de pollo empanizado súper crujiente, vegetales frescos y aderezo especial en pan suave.", 80.00, "crunchy_burguer.jpg"),
-        ("Paquete Crunchy Burguer", "Hamburguesa Crunchy Burguer acompañada de una orden de papas fritas doraditas y bebida fría.", 115.00, "paquete_hamburguesa.jpg"),
+        ("Paquete Crunchy Burguer", "Hamburguesa Crunchy Burguer acompañada de una orden de papas fritas doraditas y bebida fría.", 110.00, "paquete_hamburguesa.jpg"),
         
         # --- SECCIÓN: COMPLEMENTOS NUEVOS ---
         ("Papas fritas", "1 orden de deliciosas papas fritas, doraditas con especias.", 40.00, "papas_fritas.jpg"),
