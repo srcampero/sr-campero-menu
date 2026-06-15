@@ -249,7 +249,8 @@
             <div class="overlay"></div>
             
             <div class="product-info">
-                {% if 'birria' in p.nombre.lower() or 'consomé' in p.nombre.lower() %}
+                <!-- 🚨 Filtro completo para amarrar la birria o el consome sin importar el acento -->
+                {% if 'birria' in p.nombre.lower() or 'consome' in p.nombre.lower() or 'consomé' in p.nombre.lower() %}
                 <span class="badge-weekend">🔥 Para los antojos de fin de semana 🔥</span>
                 {% endif %}
                 
@@ -269,11 +270,13 @@
         {% endfor %}
     </div>
 
+    <!-- Botón Flotante -->
     <button class="btn-view-cart" id="btnViewCart" onclick="abrirCarrito()">
         <span>Ver Orden</span>
         <span class="cart-count-badge" id="cartCountBadge">0</span>
     </button>
 
+    <!-- Modal del Carrito -->
     <div class="cart-modal" id="cartModal">
         <div class="cart-content">
             <div class="cart-header">
@@ -282,7 +285,8 @@
             </div>
             
             <div class="cart-items-list" id="cartItemsList">
-                </div>
+                <!-- Se llena dinámicamente -->
+            </div>
             
             <div class="cart-footer">
                 <div class="cart-total">
