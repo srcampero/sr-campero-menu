@@ -236,7 +236,7 @@
 
     <div class="feed-container">
         {% for p in productos %}
-        <div class="product-section" style="background-image: url('{{ url_for(\"static\", filename=\"images/\" + p.imagen) }}'); background-color: #1a1a1a;">
+        <div class="product-section" style="background-image: url({{ url_for('static', filename='images/' + p.imagen) }}); background-color: #1a1a1a;">
             <div class="overlay"></div>
             
             <div class="product-info">
