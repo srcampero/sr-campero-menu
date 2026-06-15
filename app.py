@@ -16,9 +16,8 @@ def index():
         cur.close()
         conn.close()
         
-        # CORREGIDO: Apuntamos a menu.html que es el nombre de tu plantilla
-        return render_template('menu.html', productos=productos)
-        
+        # APUNTA EXACTAMENTE A index.html COMO TU ARCHIVO REAL
+        return render_template('index.html', productos=productos)
     except Exception as e:
         print("Error al cargar el menú:", e)
         return f"Error al cargar el menú: {e}", 500
@@ -39,5 +38,5 @@ def like_producto(producto_id):
         return jsonify(success=False), 500
 
 if __name__ == '__main__':
-    # CORREGIDO: Quitamos los dos puntos (:) del final que rompan el script
+    # REMOVIDOS LOS DOS PUNTOS QUE CAUSABAN EL ERROR DE SINTAXIS
     app.run(debug=True)
