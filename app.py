@@ -2,8 +2,6 @@ from flask import Flask, render_template, jsonify, redirect
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import urllib.parse
-import init_db
-init_db.agregar_nuevos_productos()
 
 app = Flask(__name__)
 
