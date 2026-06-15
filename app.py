@@ -6,6 +6,19 @@ app = Flask(__name__)
 
 DATABASE_URL = "postgresql://alfredo:7JqAwDij6nCpyFzJKT0CRWPKwcdXAS26@dpg-d8nf26nlk1mc739m157g-a.oregon-postgres.render.com/srcampero"
 
+# TRUCO TEMPORAL: Corrección del nombre de la imagen en la base de datos
+try:
+    print("Corrigiendo nombre de imagen para Paquete Crunchy Burguer...")
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor()
+    cur.execute("UPDATE productos SET imagen = 'paquete_crunchy.jpg' WHERE nombre = 'Paquete Crunchy Burguer';")
+    conn.commit()
+    cur.close()
+    conn.close()
+    print("¡Nombre corregido con éxito!")
+except Exception as e:
+    print("Error al corregir imagen:", e)
+
 @app.route('/')
 def index():
     try:
