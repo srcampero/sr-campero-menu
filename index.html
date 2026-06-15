@@ -63,6 +63,20 @@
             font-weight: bold;
             color: #ffaa00;
         }
+        /* Etiqueta distintiva para la sección de antojos */
+        .badge-weekend {
+            display: inline-block;
+            font-size: 12px;
+            background: #ff3b30;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(255,59,48,0.4);
+        }
         /* Panel Lateral de Botones */
         .side-actions {
             position: absolute;
@@ -162,7 +176,7 @@
             max-width: 500px;
             border-top-left-radius: 25px;
             border-top-right-radius: 25px;
-            padding: 25px 25px 40px 25px; /* 🚨 Más espacio abajo para librar la barra de Android */
+            padding: 25px 25px 40px 25px;
             box-shadow: 0 -5px 25px rgba(0,0,0,0.5);
             max-height: 85vh;
             display: flex;
@@ -180,7 +194,6 @@
         .cart-header h3 { font-family: 'Urbanist', sans-serif; font-size: 24px; color: #ffaa00; }
         .close-cart { background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; }
         
-        /* 🚨 Lista con scroll independiente para que nunca empuje el botón verde */
         .cart-items-list { 
             margin-bottom: 15px; 
             overflow-y: auto; 
@@ -219,7 +232,7 @@
             background: #25d366; color: #fff; border: none; padding: 15px; border-radius: 15px;
             font-size: 16px; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            margin-bottom: 10px; /* 🚨 Separa el botón del borde de la pantalla */
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -232,10 +245,14 @@
 
     <div class="feed-container">
         {% for p in productos %}
-        <div class="product-section" style="background-image: url('/static/images/{{ p.imagen_url }}'); background-color: #1a1a1a;">
+        <div class="product-section" style="background-image: url('/static/images/{{ p.imagen }}'); background-color: #1a1a1a;">
             <div class="overlay"></div>
             
             <div class="product-info">
+                {% if 'birria' in p.nombre.lower() or 'consomé' in p.nombre.lower() %}
+                <span class="badge-weekend">🔥 Para los antojos de fin de semana 🔥</span>
+                {% endif %}
+                
                 <h2>{{ p.nombre }}</h2>
                 <p class="desc">{{ p.descripcion }}</p>
                 <p class="price">${{ "%0.2f" | format(p.precio) }}</p>
@@ -252,13 +269,11 @@
         {% endfor %}
     </div>
 
-    <!-- Botón Flotante -->
     <button class="btn-view-cart" id="btnViewCart" onclick="abrirCarrito()">
         <span>Ver Orden</span>
         <span class="cart-count-badge" id="cartCountBadge">0</span>
     </button>
 
-    <!-- Modal del Carrito -->
     <div class="cart-modal" id="cartModal">
         <div class="cart-content">
             <div class="cart-header">
@@ -267,8 +282,7 @@
             </div>
             
             <div class="cart-items-list" id="cartItemsList">
-                <!-- Se llena dinámicamente -->
-            </div>
+                </div>
             
             <div class="cart-footer">
                 <div class="cart-total">
