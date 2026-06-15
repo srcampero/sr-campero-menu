@@ -11,8 +11,8 @@ def index():
     try:
         conn = psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
         cur = conn.cursor()
-        # Jalamos 'imagen_url' pero se la entregamos al HTML nombrada como 'imagen'
-        cur.execute("SELECT id, nombre, descripcion, precio, imagen_url AS imagen, likes FROM productos ORDER BY id ASC;")
+        # Llamamos directamente a la columna 'imagen' que ya existe y está limpia
+        cur.execute("SELECT id, nombre, descripcion, precio, imagen, likes FROM productos ORDER BY id ASC;")
         productos = cur.fetchall()
         cur.close()
         conn.close()
