@@ -2,6 +2,40 @@ from flask import Flask, render_template, jsonify, redirect
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import urllib.parse
+import psycopg2
+
+def inyectar_menu_campero():
+    url_database = "postgresql://alfredo:7JqAwDij6nCpyFzJKT0CRWPKwcdXAS26@dpg-d8nf26nlk1mc739m157g-a.oregon-postgres.render.com/srcampero"
+    try:
+        conn = psycopg2.connect(url_database)
+        cur = conn.cursor()
+        
+        nuevos_productos = [
+            ("Papas fritas", "1 orden de deliciosas papas fritas, doraditas con especias.", 40.00, "papas_fritas.jpg"),
+            ("Tenders de pollo", "1 orden de 5 pzas. de tiras de pollo crujientes y llenos de sabor con su rico dip de la casa.", 80.00, "tenders_pollo.jpg"),
+            ("Nuggets de pollo", "1 orden de Nuggets jugosos y llenos de sabor.", 40.00, "nuggets_pollo.jpg"),
+            ("1 Litro de consomé de birria", "Delicioso consomé incluye: Cebolla/cilantro, tortilla y limón.", 80.00, "litro_consome.jpg"),
+            ("½ Litro de consomé de birria", "Delicioso consomé includes: Cebolla/cilantro, tortilla y limón.", 45.00, "medio_litro_consome.jpg"),
+            ("1 Litro de consomé con carne", "180 grs. de carne, salsa, cebolla/cilantro y tortilla y limón.", 160.00, "litro_con_carne.jpg"),
+            ("½ Litro de consomé con carne", "90 grs. de carne, salsa, cebolla/cilantro y tortilla y limón.", 85.00, "medio_litro_con_carne.jpg"),
+            ("1 Kg. de carne de birria", "1 kg de deliciosa, suave y jugosa carne de birria, incluye: salsa, cebolla/cilantro, tortilla y limón.", 460.00, "un_kg_birria.jpg"),
+            ("¾ Kg. de carne de birria", "¾ kg de deliciosa, suave y jugosa carne de birria, incluye: salsa, cebolla/cilantro, tortilla y limón.", 360.00, "tres_cuartos_birria.jpg"),
+            ("½ Kg. de carne de birria", "½ kg de deliciosa, suave y jugosa carne de birria, incluye: salsa, cebolla/cilantro, tortilla y limón.", 240.00, "medio_kg_birria.jpg"),
+            ("¼ Kg. de carne de birria", "¼ kg de deliciosa, suave y jugosa carne de birria, incluye: salsa, cebolla/cilantro, tortilla y limón.", 120.00, "cuarto_kg_birria.jpg")
+        ]
+        
+        for p in nuevos_productos:
+            cur.execute("INSERT INTO productos (nombre, descripcion, precio, imagen, likes) VALUES (%s, %s, %s, %s, 0);", p)
+            
+        conn.commit()
+        cur.close()
+        conn.close()
+        print("--- ¡BIRRIA Y COMPLEMENTOS INYECTADOS CON ÉXITO! ---")
+    except Exception as e:
+        print("Nota:", e)
+
+# Ejecutamos la inyección antes de que arranque Flask
+inyectar_menu_campero()
 
 app = Flask(__name__)
 
