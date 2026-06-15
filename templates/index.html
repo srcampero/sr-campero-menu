@@ -117,6 +117,39 @@
         }
         .badge-pickup { font-size: 11px; background: #ffaa00; color: #000; padding: 2px 8px; border-radius: 10px; font-weight: bold; }
 
+        /* NUEVO: Botón Flotante de Música */
+        .music-control {
+            position: absolute;
+            top: 22px; right: 15px;
+            z-index: 15;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.2s ease;
+        }
+        .music-control:active { transform: scale(0.9); }
+        .music-control.playing {
+            background: #ffaa00;
+            color: #000;
+            border-color: #ffaa00;
+            animation: pulse-music 2s infinite;
+        }
+        @keyframes pulse-music {
+            0% { box-shadow: 0 0 0 0 rgba(255, 170, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 170, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 170, 0, 0); }
+        }
+
         .btn-view-cart {
             position: fixed;
             bottom: 20px;
@@ -234,6 +267,11 @@
         <span class="badge-pickup">PARA LLEVAR</span>
     </div>
 
+    <button class="music-control" id="musicBtn" onclick="toggleMusica()">🎵</button>
+    <audio id="musicaFondo" loop>
+        <source src="{{ url_for('static', filename='images/musica_campero.mp3') }}" type="audio/mpeg">
+    </audio>
+
     <div class="feed-container">
         {% for p in productos %}
         <div class="product-section" style="background-image: url({{ url_for('static', filename='images/' + p.imagen) }}); background-color: #1a1a1a;">
@@ -287,6 +325,21 @@
 
     <script>
         let carrito = {};
+        const audio = document.getElementById('musicaFondo');
+        const musicBtn = document.getElementById('musicBtn');
+
+        // FUNCIÓN NUEVA: Controlar la música Play/Pausa
+        function toggleMusica() {
+            if (audio.paused) {
+                audio.play();
+                musicBtn.innerText = "⏸️";
+                musicBtn.classList.add('playing');
+            } else {
+                audio.pause();
+                musicBtn.innerText = "🎵";
+                musicBtn.classList.remove('playing');
+            }
+        }
 
         function agregarAlCarrito(id, nombre, precio) {
             if (carrito[id]) {
