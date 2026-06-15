@@ -2,8 +2,7 @@ from flask import Flask, render_template, jsonify
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
-# Le ordenamos a Flask que busque los archivos directamente en tu carpeta 'images'
-app = Flask(__name__, static_folder='images', static_url_path='/images')
+app = Flask(__name__)
 
 DATABASE_URL = "postgresql://alfredo:7JqAwDij6nCpyFzJKT0CRWPKwcdXAS26@dpg-d8nf26nlk1mc739m157g-a.oregon-postgres.render.com/srcampero"
 
