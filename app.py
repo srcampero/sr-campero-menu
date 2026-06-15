@@ -1,17 +1,8 @@
 from flask import Flask, render_template, jsonify
 import psycopg2
 from psycopg2.extras import RealDictCursor
-# IMPORTAMOS TU SCRIPT DE INICIAR BASE DE DATOS
-from init_db import init_db
 
 app = Flask(__name__)
-
-# EJECUTAMOS EL SCRIPT EN CUANTO ARRANQUE LA APP PARA ACTUALIZAR LOS PRECIOS
-try:
-    print("Ejecutando actualización de precios desde app.py...")
-    init_db()
-except Exception as e:
-    print("Error al correr init_db:", e)
 
 DATABASE_URL = "postgresql://alfredo:7JqAwDij6nCpyFzJKT0CRWPKwcdXAS26@dpg-d8nf26nlk1mc739m157g-a.oregon-postgres.render.com/srcampero"
 
