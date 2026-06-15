@@ -2,7 +2,8 @@ from flask import Flask, render_template, jsonify
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
-app = Flask(__name__)
+# Le ordenamos a Flask que busque los archivos directamente en tu carpeta 'images'
+app = Flask(__name__, static_folder='images', static_url_path='/images')
 
 DATABASE_URL = "postgresql://alfredo:7JqAwDij6nCpyFzJKT0CRWPKwcdXAS26@dpg-d8nf26nlk1mc739m157g-a.oregon-postgres.render.com/srcampero"
 
@@ -11,7 +12,6 @@ def index():
     try:
         conn = psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
         cur = conn.cursor()
-        # Llamamos directamente a la columna 'imagen' que ya existe y está limpia
         cur.execute("SELECT id, nombre, descripcion, precio, imagen, likes FROM productos ORDER BY id ASC;")
         productos = cur.fetchall()
         cur.close()
