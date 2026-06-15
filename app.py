@@ -15,7 +15,10 @@ def index():
         productos = cur.fetchall()
         cur.close()
         conn.close()
-        return render_template('index.html', productos=productos)
+        
+        # CORREGIDO: Apuntamos a menu.html que es el nombre de tu plantilla
+        return render_template('menu.html', productos=productos)
+        
     except Exception as e:
         print("Error al cargar el menú:", e)
         return f"Error al cargar el menú: {e}", 500
@@ -32,8 +35,9 @@ def like_producto(producto_id):
         cur.close()
         conn.close()
         return jsonify(success=True, likes=producto['likes'])
-    except:
+    except Exception as e:
         return jsonify(success=False), 500
 
 if __name__ == '__main__':
+    # CORREGIDO: Quitamos los dos puntos (:) del final que rompan el script
     app.run(debug=True)
