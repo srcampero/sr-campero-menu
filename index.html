@@ -239,16 +239,19 @@
 <body>
 
     <div class="brand-header">
-        <img src="/static/images/logo.png" alt="Logo Sr. Campero" style="width: 60px; height: 60px; object-fit: contain; vertical-align: middle;">
+        <!-- Corregido el logo oficial para jalar desde la carpeta real -->
+        <img src="/images/logo.png" alt="Logo Sr. Campero" style="width: 60px; height: 60px; object-fit: contain; vertical-align: middle;">
         <span class="badge-pickup">PARA LLEVAR</span>
     </div>
 
     <div class="feed-container">
         {% for p in productos %}
-        <div class="product-section" style="background-image: url('/static/images/{{ p.imagen }}'); background-color: #1a1a1a;">
+        <!-- 🚨 Cambiada la ruta aquí para buscar en la carpeta suelta 'images' en vez de static -->
+        <div class="product-section" style="background-image: url('/images/{{ p.imagen }}'); background-color: #1a1a1a;">
             <div class="overlay"></div>
             
             <div class="product-info">
+                <!-- Filtro para amarrar la birria o el consome sin importar el acento -->
                 {% if 'birria' in p.nombre.lower() or 'consome' in p.nombre.lower() or 'consomé' in p.nombre.lower() %}
                 <span class="badge-weekend">🔥 Para los antojos de fin de semana 🔥</span>
                 {% endif %}
@@ -269,11 +272,13 @@
         {% endfor %}
     </div>
 
+    <!-- Botón Flotante -->
     <button class="btn-view-cart" id="btnViewCart" onclick="abrirCarrito()">
         <span>Ver Orden</span>
         <span class="cart-count-badge" id="cartCountBadge">0</span>
     </button>
 
+    <!-- Modal del Carrito -->
     <div class="cart-modal" id="cartModal">
         <div class="cart-content">
             <div class="cart-header">
@@ -282,7 +287,8 @@
             </div>
             
             <div class="cart-items-list" id="cartItemsList">
-                </div>
+                <!-- Se llena dinámicamente -->
+            </div>
             
             <div class="cart-footer">
                 <div class="cart-total">
@@ -301,7 +307,7 @@
             if (carrito[id]) {
                 carrito[id].cantidad += 1;
             } else {
-                carrito[id] = { nombre: nombre, precio: precio, cantidad: 1 };
+                carrito[id] = { nombre: nombre, precio: precio, candy: 1, cantidad: 1 };
             }
             actualizarInterfazCarrito();
             
